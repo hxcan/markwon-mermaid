@@ -187,12 +187,18 @@ public class XAPKInstaller
         
         if (installExpansinCussess)
         {
-          requestInstallApiParts(xapkParts, statusReceiver); // Request install by view.
-          
-          result=true;
+          try
+          {
+            requestInstallApiParts(xapkParts, statusReceiver); // Request install by view.
+            
+            result=true;
+          }
+          catch(RuntimeException e)
+          {
+            e.printStackTrace();
+          }
         } // if (installExpansinCussess)
       } // if (partAmount>0) // Got something
-      
     } // if (xapkManifest!=null) // extract success
     
     return result;
