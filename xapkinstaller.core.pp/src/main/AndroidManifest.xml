@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools"
+  package="com.stupidbeauty.xapkinstaller.core"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:installLocation="auto" >
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <application
+    android:largeHeap="true"
+    android:allowBackup="true"
+    android:supportsRtl="true"
+    android:requestLegacyExternalStorage="true"
+    tools:ignore="GoogleAppIndexingWarning">
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+    <activity android:name=".AutoRunSettingsActivity" android:theme="@android:style/Theme.Holo.Light"/>
+    <activity android:name=".ApplicationFrequencySettingsActivity" android:theme="@android:style/Theme.Holo.Light"/>
+    <activity android:name=".activity.AccountActivity" android:label="@string/myAccount" />
+    <receiver android:name="com.stupidbeauty.shutdownat2100androidnative.BootBroadcastReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>

@@ -1,0 +1,49 @@
+buildscript 
+{
+  repositories 
+  {
+    jcenter()
+    google()
+  }
+  dependencies 
+  {
+    classpath 'com.android.tools.build:gradle:8.4.1'
+//     classpath 'com.jakewharton:butterknife-gradle-plugin:7.0.1'
+
+//     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+plugins 
+{
+//   id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+}
+
+allprojects 
+{
+  repositories 
+  {
+    jcenter()
+    google()
+
+    maven { url "https://jitpack.io" }
+  }
+}
+
+repositories 
+{
+  mavenCentral()
+}
+dependencies {
+//     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+// compileKotlin {
+//     kotlinOptions {
+//         jvmTarget = "1.8"
+//     }
+// }
+// compileTestKotlin {
+//     kotlinOptions {
+//         jvmTarget = "1.8"
+//     }
+// }

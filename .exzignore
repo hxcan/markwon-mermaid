@@ -1,0 +1,5 @@
+build
+obbassets
+.idea
+.gradle
+.git
