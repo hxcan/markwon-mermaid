@@ -48,20 +48,6 @@ android
       java.srcDirs = [ 'src/main/java' ]
     }
   }
-
-  // JitPack requires publishing config inside android block
-  afterEvaluate {
-    publishing {
-      publications {
-        mavenRelease(MavenPublication) {
-          from components.java
-          groupId = 'com.stupidbeauty'
-          artifactId = 'markwon-mermaid'
-          version = '1.0.0-SNAPSHOT'
-        }
-      }
-    }
-  }
 }
 
 dependencies 
@@ -79,4 +65,19 @@ dependencies
   implementation 'com.github.hxcan:rotatingactiveuser:2021.11.29'
   implementation 'com.github.hxcan:EXtremeZip-Android:2023.1.3'
   implementation 'org.apache.commons:commons-compress:1.22'
+}
+
+// ✅ JitPack requires top-level afterEvaluate, not inside android{}
+// ✅ Use 'components.java' for Android Library (not 'release')
+afterEvaluate {
+    publishing {
+        publications {
+            mavenRelease(MavenPublication) {
+                from components.java
+                groupId = 'com.stupidbeauty'
+                artifactId = 'markwon-mermaid'
+                version = '1.0.0-SNAPSHOT'
+            }
+        }
+    }
 }
