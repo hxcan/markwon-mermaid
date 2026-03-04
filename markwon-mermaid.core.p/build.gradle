@@ -67,13 +67,14 @@ dependencies
   implementation 'org.apache.commons:commons-compress:1.22'
 }
 
-// ✅ JitPack requires top-level afterEvaluate, not inside android{}
-// ✅ Use 'components.java' for Android Library (not 'release')
 afterEvaluate {
     publishing {
         publications {
             mavenRelease(MavenPublication) {
+                // ✅ CRITICAL FIX: Use 'java' component for Android Library
+                // ✅ NOT 'release' (which does not exist in SoftwareComponent container)
                 from components.java
+                
                 groupId = 'com.stupidbeauty'
                 artifactId = 'markwon-mermaid'
                 version = '1.0.0-SNAPSHOT'
