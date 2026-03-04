@@ -74,10 +74,9 @@ dependencies
   implementation 'io.noties.markwon:syntax-highlight:4.6.2'
   
   // ✅ Correct JitPack coordinate for hggz/Mermaid-Android
-  // ❌ The official docs say 'com.mermaid:mermaid-kotlin:1.0.0' but this does NOT exist!
-  // Verified: https://search.maven.org/solrsearch/select?q=com.mermaid → 0 results
-  // Verified: https://api.github.com/repos/hggz/Mermaid-Android/releases → [] empty
-  implementation 'com.github.hggz:Mermaid-Android:master-SNAPSHOT'
+  // ⚠️ Official docs say 'com.mermaid:mermaid-kotlin:1.0.0' but it DOES NOT EXIST anywhere!
+  // Use repository name directly (Mermaid-Android -> mermaid-android in JitPack format)
+  implementation 'com.github.hggz:mermaid-android:master-SNAPSHOT'
 }
 
 afterEvaluate
