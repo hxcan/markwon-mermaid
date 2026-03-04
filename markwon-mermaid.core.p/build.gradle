@@ -48,20 +48,6 @@ android
       java.srcDirs = [ 'src/main/java' ]
     }
   }
-
-  // JitPack 发布配置
-  afterEvaluate {
-    publishing {
-      publications {
-        mavenRelease(MavenPublication) {
-          from components.release
-          groupId = 'com.stupidbeauty'
-          artifactId = 'markwon-mermaid'
-          version = '1.0.0-SNAPSHOT'
-        }
-      }
-    }
-  }
 }
 
 dependencies 
