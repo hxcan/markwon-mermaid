@@ -69,10 +69,15 @@ dependencies
   implementation 'com.github.hxcan:EXtremeZip-Android:2023.1.3'
   implementation 'org.apache.commons:commons-compress:1.22'
   
-  // ✅ New dependencies for markwon-mermaid integration
+  // ✅ Markwon dependencies (available on Maven Central)
   implementation 'io.noties.markwon:core:4.6.2'
   implementation 'io.noties.markwon:syntax-highlight:4.6.2'
-  implementation 'com.github.hggz:mermaid-kotlin:master-SNAPSHOT' // 🆕 Use master branch
+  
+  // ✅ Correct JitPack coordinate for hggz/Mermaid-Android
+  // ❌ The official docs say 'com.mermaid:mermaid-kotlin:1.0.0' but this does NOT exist!
+  // Verified: https://search.maven.org/solrsearch/select?q=com.mermaid → 0 results
+  // Verified: https://api.github.com/repos/hggz/Mermaid-Android/releases → [] empty
+  implementation 'com.github.hggz:Mermaid-Android:master-SNAPSHOT'
 }
 
 afterEvaluate
