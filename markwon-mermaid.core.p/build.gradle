@@ -1,3 +1,11 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
@@ -73,8 +81,8 @@ dependencies
   implementation 'io.noties.markwon:core:4.6.2'
   implementation 'io.noties.markwon:syntax-highlight:4.6.2'
   
-  // ✅ Correct Mermaid-Android dependency (official coordinates)
-  implementation 'com.mermaid:mermaid-kotlin:1.0.0'
+  // ✅ Correct Mermaid-Android via JitPack GitHub
+  implementation 'com.github.hggz:Mermaid-Android:v1.0.0'
 }
 
 afterEvaluate
