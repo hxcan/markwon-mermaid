@@ -17,6 +17,9 @@ import io.noties.markwon.utils.CodeBlocks;
 import com.stupidbeauty.markwonmermaid.core.MermaidAndroidEngine;
 import com.stupidbeauty.markwonmermaid.core.MermaidEngine;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Markwon plugin to render Mermaid diagrams in Markdown code blocks.
  * 
@@ -36,6 +39,7 @@ public class MarkwonMermaidPlugin extends AbstractMarkwonPlugin {
 
     private static final String FENCE_TYPE = "mermaid";
     private static final int MAX_BITMAP_DIMENSION = 2000; // Prevent OOM
+    private static final Pattern FENCE_PATTERN = Pattern.compile("^```\\s*" + FENCE_TYPE + "\\s*$", Pattern.MULTILINE);
 
     @Override
     public void configureScope(@NonNull ScopeConfig.Builder builder) {
@@ -49,7 +53,6 @@ public class MarkwonMermaidPlugin extends AbstractMarkwonPlugin {
             new CodeBlocks.Factory() {
                 @Override
                 public @Nullable SyntaxHighlighter create(@NonNull Syntax syntax, @NonNull SyntaxHighlighter.Factory factory) {
-                    // Return a special highlighter that renders Mermaid
                     return new MermaidSyntaxHighlighter();
                 }
             }
@@ -70,6 +73,13 @@ public class MarkwonMermaidPlugin extends AbstractMarkwonPlugin {
                 String mermaidCode = extractCode(syntax, spannable);
                 
                 if (mermaidCode != null && !mermaidCode.trim().isEmpty()) {
+                    // Validate syntax first
+                    if (!engine.isValidSyntax(mermaidCode)) {
+                        System.err.println("Invalid Mermaid syntax at position " + start);
+                        clearSpans(spannable, start, end);
+                        return;
+                    }
+                    
                     // Render to bitmap
                     android.graphics.Bitmap bitmap = engine.renderToBitmap(mermaidCode);
                     
@@ -91,16 +101,34 @@ public class MarkwonMermaidPlugin extends AbstractMarkwonPlugin {
                 }
             } catch (Exception e) {
                 // Log error but don't crash
-                System.err.println("Mermaid rendering failed: " + e.getMessage());
+                System.err.println("Mermaid rendering failed at position " + start + ": " + e.getMessage());
+                e.printStackTrace();
                 clearSpans(spannable, start, end);
             }
         }
 
         private String extractCode(Syntax syntax, Spannable spannable) {
-            // Extract content from the code block
-            // This is simplified; real implementation needs proper parsing
-            // For now, assume the text after fence type is the code
-            return ""; // Placeholder - will be implemented properly
+            // Get the raw text from the code block
+            String text = spannable.subSequence(syntax.info.start, syntax.info.end).toString();
+            
+            // Find the fence line (```mermaid) and extract content after it
+            Matcher matcher = FENCE_PATTERN.matcher(text);
+            if (matcher.find()) {
+                // Content starts after the fence line (usually newline)
+                int contentStart = matcher.end();
+                // Skip whitespace/newline after fence
+                while (contentStart < text.length() && Character.isWhitespace(text.charAt(contentStart))) {
+                    contentStart++;
+                }
+                // Find the closing fence or end of string
+                int closingFence = text.indexOf("```", contentStart);
+                if (closingFence != -1) {
+                    return text.substring(contentStart, closingFence).trim();
+                } else {
+                    return text.substring(contentStart).trim();
+                }
+            }
+            return "";
         }
 
         private void clearSpans(Spannable spannable, int start, int end) {
