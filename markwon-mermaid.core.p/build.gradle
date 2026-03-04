@@ -36,7 +36,8 @@ android
       minifyEnabled false
       shrinkResources false
       multiDexKeepFile file('multidex-config.txt')
-      multiDexKeepProguard file('proguard-android.txt'), 'proguard-rules.pro'
+      multiDexKeepProguard file('multidex-config.pro')
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
 
@@ -48,15 +49,19 @@ android
     }
   }
 
-  publishing
-  {
-    singleVariant('release')
-    {
-      withSourcesJar()
+  // JitPack 发布配置
+  afterEvaluate {
+    publishing {
+      publications {
+        mavenRelease(MavenPublication) {
+          from components.release
+          groupId = 'com.stupidbeauty'
+          artifactId = 'markwon-mermaid'
+          version = '1.0.0-SNAPSHOT'
+        }
+      }
     }
   }
-
-  return void
 }
 
 dependencies 
